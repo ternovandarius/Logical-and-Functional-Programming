@@ -1,0 +1,12 @@
+;d) Write a function to return the sum of all numerical atoms in a list at superficial level.
+;
+;list_sum({l1, ..., ln}) = l1+list_sum({l2, ..., ln}), if l1 is a numerical atom
+;                        = list_sum({l2, ..., ln}), if l1 is not a numerical atom
+;                        = 0, if {l1, ..., ln} is empty
+
+
+(defun list_sum (list)
+  (cond
+    ((null list) 0)
+    ((numberp (car list)) (+ (car list) (list_sum (cdr list))))
+    (t (list_sum (cdr list)))))

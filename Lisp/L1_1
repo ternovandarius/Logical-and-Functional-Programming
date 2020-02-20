@@ -1,0 +1,19 @@
+;a) Write a function to return the difference of two sets
+;
+;set_diff({a1, ..., an}, {b1, ..., bn}) = {a1} U set_diff({a2, ..., an}, {b1, ..., bn}, if a1 not in {b1,...,bn} and n!=1
+;                                       = set_diff({a2, ..., an}, {b1, ..., bn}, if a1 in {b1,...,bn} and n!=1
+;                                       = {}, {a1, ..., an} is empty
+
+
+(defun is_member (el1 set2)
+  (cond
+    ((null set2) nil)
+    ((equal el1 (car set2)) t)
+    (t (is_member el1 (cdr set2)))))
+
+
+(defun set_diff (set1 set2)
+  (cond
+    ((null set1) nil)
+    ((null (is_member (car set1) set2)) (cons (car set1) (set_diff (cdr set1) set2)))
+    (t (set_diff (rest set1) set2))))

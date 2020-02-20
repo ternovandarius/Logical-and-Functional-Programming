@@ -1,0 +1,20 @@
+;b) Write a function to reverse a list with its all sublists, on all levels.
+;
+;reverse_list({l1, ..., ln}) = {}, {l1, ..., ln} empty
+;                            = reverse_list({l2,...,ln}) U {l1}, if l1 is number
+;                            = reverse_list({l2,...,ln}) U reverse_another_list(l1), if l1 is list
+;
+;reverse_another_list({l1, ..., ln}) = same, but for a list calls reverse_list
+
+
+(defun reverse_another_list (l)
+  (cond
+    ((null l) l)
+    ((numberp (car l)) (append (reverse_list (cdr l)) (list (car l))))
+    ((listp (car l)) (append (reverse_another_list (cdr l)) (list (reverse_list (car l)))))))
+
+(defun reverse_list (l)
+  (cond
+    ((null l) l)
+    ((numberp (car l)) (append (reverse_list (cdr l)) (list (car l))))
+    ((listp (car l)) (append (reverse_list (cdr l)) (list (reverse_another_list (car l)))))))

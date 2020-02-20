@@ -1,0 +1,21 @@
+;7. Write a function that substitutes an element E with all elements of a list L1 at all levels of a given list L.
+
+;handler(l={a1, a2, ..., an}, el, l1={b1, b2, ..., bn}) = l1 U handler({a2, ..., an}, el, l1), if a1==l
+;                                                       = {a1} U handler({a2, ..., an}, el, l1), if a1!=l
+;                                                       = nil, when l is empty
+
+(defun replace_elem (current el sub_list)
+  (cond
+    ((equal current el) (setq current sub_list))
+    ((listp current) (mapcar (lambda (curr) (replace_elem curr el sub_list)) current))
+    (t current)))
+
+(defun handler (current el sub_list)
+  (mapcar (lambda (curr) (replace_elem curr el sub_list)) current))
+
+;Test input:
+;(handler `(1 2 3 4 5) 3 `(1 2)) should return (1 2 (1 2) 4 5)
+;(handler `() 3 `()) should return NIL
+;(handler `(1 2 3 4 5) 6 `(1 2)) should return (1 2 3 4 5)
+;(handler `(1 2 3 (1 2 3 (1 2 3))) 2 `(5 6)) should return (1 (5 6) 3 (1 (5 6) 3 (1 (5 6) 3)))
+;(handler `(1 2 3 (4)) 4 `(1 2)) should return (1 2 3 ((1 2)))
